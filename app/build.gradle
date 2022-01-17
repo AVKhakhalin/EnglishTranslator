@@ -54,14 +54,14 @@ dependencies {
     androidTestImplementation libs.tests.runner
     androidTestImplementation libs.tests.espressocore
     implementation fileTree(dir: libs.tests.filetreedir, include: libs.tests.filetreeinclude) */
-/*    // Lifecycle
+    // Lifecycle
     implementation libs.lifecycle.extensions
     // LiveData
     implementation libs.lifecycle.ktx
     // Lifecycles only (without ViewModel or LiveData)
     implementation libs.lifecycle.runtimektx
     implementation libs.lifecycle.process
-    implementation libs.lifecycle.java8 */
+    implementation libs.lifecycle.java8
 /*    // Moxy
     implementation libs.moxy.community
     kapt libs.moxy.compiler
@@ -80,13 +80,14 @@ dependencies {
     // Retrofit
     implementation libs.retrofit.runtime
     implementation libs.retrofit.gson
-    implementation libs.retrofit.rxJava3
+    implementation libs.retrofit.rxJava2
+//    implementation libs.retrofit.rxJava3 // одновременно с rxJava2 не включать
     implementation libs.retrofit.interceptor
-    // Room
+/*    // Room
     implementation libs.room.runtime
     kapt libs.room.compiler
     kapt libs.room.m1Support
-    implementation libs.room.rxJava3
+    implementation libs.room.rxJava3 */
 /*    // Coroutunes
     implementation libs.coroutunes.android */
 /*    // Dagger

@@ -1,7 +1,8 @@
-package ru.geekbrains.popular.libraries.englishtranslator
+package ru.geekbrains.popular.libraries.englishtranslator.view.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import ru.geekbrains.popular.libraries.englishtranslator.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

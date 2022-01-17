@@ -50,10 +50,10 @@ dependencies {
     implementation libs.design.material
     implementation libs.design.constrlayout
 /*    // Test
-    testImplementation libs.test.junit
-    androidTestImplementation libs.test.runner
-    androidTestImplementation libs.test.espressocore
-    implementation libs.test.filetree */
+    testImplementation libs.tests.junit
+    androidTestImplementation libs.tests.runner
+    androidTestImplementation libs.tests.espressocore
+    implementation fileTree(dir: libs.tests.filetreedir, include: libs.tests.filetreeinclude) */
 /*    // Lifecycle
     implementation libs.lifecycle.extensions
     // LiveData
@@ -75,12 +75,13 @@ dependencies {
 /*    // Glide
     implementation libs.glide.runtime
     kapt libs.glide.compiler */
-    // OkHTTP
-    implementation libs.okHTTP.runtime
+/*    // OkHTTP
+    implementation libs.okHTTP.runtime */
     // Retrofit
     implementation libs.retrofit.runtime
     implementation libs.retrofit.gson
     implementation libs.retrofit.rxJava3
+    implementation libs.retrofit.interceptor
     // Room
     implementation libs.room.runtime
     kapt libs.room.compiler

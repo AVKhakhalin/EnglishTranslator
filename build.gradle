@@ -22,11 +22,10 @@ allprojects {
     }
 }
 
+// Подключение файла "dependencies.gradle"
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-
-// Подключение файла "dependencies.gradle"
 subprojects {
     apply(from: "/dependencies.gradle")
 }

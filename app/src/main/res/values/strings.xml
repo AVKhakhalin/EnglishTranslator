@@ -1,11 +1,13 @@
 <resources>
     <string name="app_name">EnglishTranslator</string>
 
-    <string name="error_textview_stub">Error</string>
-    <string name="reload_button">Reload</string>
-    <string name="undefined_error">Undefined error</string>
-    <string name="empty_server_response_on_success">Response from server is empty</string>
-    <string name="button_search">Search</string>
-    <string name="search_hint">New word</string>
+    <string name="error_textview_stub">Ошибка</string>
+    <string name="reload_button">Загрузить</string>
+    <string name="undefined_error">Неизвестная ошибка</string>
+    <string name="empty_server_response_on_success">Неизвестное слово</string>
+    <string name="button_search">Поиск</string>
+    <string name="search_hint">Новое слово</string>
     <string name="delete_description">X</string>
+    <string name="header_textview_recycler_item_tools_text">Заголовок</string>
+    <string name="description_textview_recycler_item_tools_text">Образец текста</string>
 </resources>

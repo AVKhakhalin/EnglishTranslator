@@ -15,7 +15,7 @@ class SearchDialogFragment: BottomSheetDialogFragment() {
     private val binding get() = _binding!!
     private var onSearchClickListener: OnSearchClickListener? = null
 
-    private val textWatcher = object : TextWatcher {
+    private val textWatcher = object: TextWatcher {
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             if (binding.searchEditText.text != null && !binding.searchEditText.text.toString()
@@ -73,7 +73,6 @@ class SearchDialogFragment: BottomSheetDialogFragment() {
     }
 
     interface OnSearchClickListener {
-
         fun onClick(searchWord: String)
     }
 

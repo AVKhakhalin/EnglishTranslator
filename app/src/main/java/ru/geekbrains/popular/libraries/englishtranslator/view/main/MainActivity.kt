@@ -1,7 +1,6 @@
 package ru.geekbrains.popular.libraries.englishtranslator.view.main
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import ru.geekbrains.popular.libraries.englishtranslator.R
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -15,7 +14,7 @@ import ru.geekbrains.popular.libraries.englishtranslator.view.base.BaseActivity
 import ru.geekbrains.popular.libraries.englishtranslator.view.base.View
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter.MainAdapter
 
-class MainActivity : BaseActivity<AppState>() {
+class MainActivity: BaseActivity<AppState>() {
 
     private lateinit var binding: ActivityMainBinding
 
@@ -61,7 +60,9 @@ class MainActivity : BaseActivity<AppState>() {
                         binding.mainActivityRecyclerview.adapter =
                             MainAdapter(onListItemClickListener, dataModel)
                     } else {
-                        adapter!!.setData(dataModel)
+                        adapter?.let {
+                            it.setData(dataModel)
+                        }
                     }
                 }
             }

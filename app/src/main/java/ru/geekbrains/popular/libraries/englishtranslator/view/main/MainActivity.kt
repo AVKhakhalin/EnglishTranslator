@@ -25,8 +25,6 @@ import ru.geekbrains.popular.libraries.englishtranslator.view.base.BaseActivity
 import ru.geekbrains.popular.libraries.englishtranslator.view.base.View
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter.MainAdapter
 import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColor
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 
 class MainActivity : BaseActivity<AppState>() {
@@ -56,10 +54,11 @@ class MainActivity : BaseActivity<AppState>() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         // Считывание системных настроек, применение темы к приложению
         readSettingsAndSetupApplication(savedInstanceState)
 
-        super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         // Получение цветов из аттрибутов темы
@@ -170,7 +169,7 @@ class MainActivity : BaseActivity<AppState>() {
             // TODO
 //            searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text).setText("")
             // Событие установки поискового запроса
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
                     presenter.getData(query)
                     return false
@@ -237,8 +236,7 @@ class MainActivity : BaseActivity<AppState>() {
             binding.bottomNavigationMenu.bottomAppBar.menu
                 .getItem(Constants.BUTTON_CHANGE_THEME_INDEX).setOnMenuItemClickListener {
                     isMain = false
-                    setIsThemeDay(!isThemeDay)
-                    recreate()
+                    changeTheme()
                 true
             }
             // Анимированное появление кнопки меню со сменой темы
@@ -250,13 +248,13 @@ class MainActivity : BaseActivity<AppState>() {
 
     // Считывание системных настроек, применение темы к приложению
     private fun readSettingsAndSetupApplication(savedInstanceState: Bundle?) {
+        val sharedPreferences: SharedPreferences =
+            getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, MODE_PRIVATE)
+        isMain = sharedPreferences.getBoolean(
+            Constants.SHARED_PREFERENCES_MAIN_STATE_KEY, true)
         if (savedInstanceState != null) {
-            val sharedPreferences: SharedPreferences =
-                getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, MODE_PRIVATE)
             isThemeDay = sharedPreferences.getBoolean(
                 Constants.SHARED_PREFERENCES_THEME_KEY, true)
-            isMain = sharedPreferences.getBoolean(
-                Constants.SHARED_PREFERENCES_MAIN_STATE_KEY, true)
             if (isThemeDay) {
                 setTheme(R.style.DayTheme)
             } else {
@@ -266,24 +264,31 @@ class MainActivity : BaseActivity<AppState>() {
             // Применение тёмной темы при первом запуске приложения
             // на мобильных устройствах с версией Android 10+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                isThemeDay = false
                 setTheme(R.style.NightTheme)
             }
         }
     }
 
     // Установка темы приложения
-    private fun setIsThemeDay(isThemeDay: Boolean) {
-        this.isThemeDay = isThemeDay
-        saveApplicatonSettings()
+    private fun changeTheme() {
+        isThemeDay = !isThemeDay
+        saveApplicationSettings()
+        recreate()
     }
 
     override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
         super.onSaveInstanceState(outState, outPersistentState)
-        saveApplicatonSettings()
+        saveApplicationSettings()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        saveApplicationSettings()
     }
 
     // Сохранение настроек приложения
-    private fun saveApplicatonSettings() {
+    private fun saveApplicationSettings() {
         val sharedPreferences: SharedPreferences =
             getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, AppCompatActivity.MODE_PRIVATE)
         val sharedPreferencesEditor: SharedPreferences.Editor = sharedPreferences.edit()

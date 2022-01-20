@@ -7,9 +7,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.geekbrains.popular.libraries.englishtranslator.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 
-class RetrofitImplementation : DataSource<List<DataModel>> {
+class RetrofitImplementation: DataSource<List<DataModel>> {
 
     override fun getData(word: String): Observable<List<DataModel>> {
         return getService(BaseInterceptor.interceptor).search(word)
@@ -21,7 +22,7 @@ class RetrofitImplementation : DataSource<List<DataModel>> {
 
     private fun createRetrofit(interceptor: Interceptor): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASE_URL_LOCATIONS)
+            .baseUrl(Constants.BASE_URL_LOCATIONS)
             .addConverterFactory(GsonConverterFactory.create())
             // Для использования RxJava2CallAdapterFactory нужно
             // implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
@@ -38,9 +39,5 @@ class RetrofitImplementation : DataSource<List<DataModel>> {
                 .setLevel(HttpLoggingInterceptor.Level.BODY)
         )
         return httpClient.build()
-    }
-
-    companion object {
-        private const val BASE_URL_LOCATIONS = "https://dictionary.skyeng.ru/api/public/v1/"
     }
 }

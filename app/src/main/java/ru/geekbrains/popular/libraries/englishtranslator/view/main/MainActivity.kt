@@ -25,6 +25,8 @@ import ru.geekbrains.popular.libraries.englishtranslator.view.base.BaseActivity
 import ru.geekbrains.popular.libraries.englishtranslator.view.base.View
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter.MainAdapter
 import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColor
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 
 class MainActivity : BaseActivity<AppState>() {
@@ -78,6 +80,7 @@ class MainActivity : BaseActivity<AppState>() {
         when (appState) {
             is AppState.Success -> {
                 val dataModel = appState.data
+                val isEnglish: Boolean = appState.isEnglish
                 if (dataModel == null || dataModel.isEmpty()) {
                     showErrorScreen(getString(R.string.empty_server_response_on_success))
                 } else {
@@ -86,10 +89,10 @@ class MainActivity : BaseActivity<AppState>() {
                         binding.mainActivityRecyclerview.layoutManager =
                             LinearLayoutManager(applicationContext)
                         binding.mainActivityRecyclerview.adapter =
-                            MainAdapter(onListItemClickListener, dataModel)
+                            MainAdapter(onListItemClickListener, dataModel, isEnglish)
                     } else {
                         adapter?.let {
-                            it.setData(dataModel)
+                            it.setData(dataModel, isEnglish)
                         }
                     }
                 }
@@ -169,8 +172,6 @@ class MainActivity : BaseActivity<AppState>() {
             // Событие установки поискового запроса
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    // Отображение полученного поискового запроса
-                    Toast.makeText(this@MainActivity, query, Toast.LENGTH_SHORT).show()
                     presenter.getData(query)
                     return false
                 }

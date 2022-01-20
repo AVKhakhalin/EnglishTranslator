@@ -1,5 +1,6 @@
 package ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,12 +11,14 @@ import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 
 class MainAdapter(
     private var onListItemClickListener: OnListItemClickListener,
-    private var data: List<DataModel>
-) :
-    RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
+    private var data: List<DataModel>,
+    // Признак перевода англиского слова (true - английское слово; false - русское слово)
+    private var isEnglish: Boolean
+): RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
 
-    fun setData(data: List<DataModel>) {
+    fun setData(data: List<DataModel>, isEnglish: Boolean) {
         this.data = data
+        this.isEnglish = isEnglish
         notifyDataSetChanged()
     }
 
@@ -27,20 +30,28 @@ class MainAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerItemViewHolder, position: Int) {
-        holder.bind(data.get(position))
+        holder.bind(data[position])
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
 
-    inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class RecyclerItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
         fun bind(data: DataModel) {
             if (layoutPosition != RecyclerView.NO_POSITION) {
-                itemView.findViewById<TextView>(R.id.header_textview_recycler_item).text = data.text
-                itemView.findViewById<TextView>(R.id.description_textview_recycler_item).text =
-                    data.meanings?.get(0)?.translation?.translation
+                if (isEnglish) {
+                    itemView.findViewById<TextView>(R.id.header_textview_recycler_item).text =
+                        data.text
+                    itemView.findViewById<TextView>(R.id.description_textview_recycler_item).text =
+                        data.meanings?.get(0)?.translation?.translation
+                } else {
+                    itemView.findViewById<TextView>(R.id.header_textview_recycler_item).text =
+                        data.meanings?.get(0)?.translation?.translation
+                    itemView.findViewById<TextView>(R.id.description_textview_recycler_item).text =
+                        data.text
+                }
                 itemView.setOnClickListener { openInNewWindow(data) }
             }
         }

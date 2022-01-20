@@ -9,7 +9,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 
-class RetrofitImplementation: DataSource<List<DataModel>> {
+class RetrofitImplementation : DataSource<List<DataModel>> {
 
     override fun getData(word: String): Observable<List<DataModel>> {
         return getService(BaseInterceptor.interceptor).search(word)
@@ -33,8 +33,10 @@ class RetrofitImplementation: DataSource<List<DataModel>> {
     private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {
         val httpClient = OkHttpClient.Builder()
         httpClient.addInterceptor(interceptor)
-        httpClient.addInterceptor(HttpLoggingInterceptor()
-            .setLevel(HttpLoggingInterceptor.Level.BODY))
+        httpClient.addInterceptor(
+            HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY)
+        )
         return httpClient.build()
     }
 

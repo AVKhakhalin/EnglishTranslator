@@ -8,7 +8,7 @@ import java.io.IOException
  * Custom interceptor to intercept basic responses and to show basic errors to the user
  * (not fully implemented)
  */
-class BaseInterceptor private constructor(): Interceptor {
+class BaseInterceptor private constructor() : Interceptor {
 
     private var responseCode: Int = 0
 

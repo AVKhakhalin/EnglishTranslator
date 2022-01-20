@@ -3,9 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:drawable="@color/color_background_splash" />
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/alphabet" />
-    </item>
+    <item
+        android:drawable="@drawable/alphabet"
+        android:gravity="center"
+        /> <!-- Так корректно отображается фон в activity_main.xml -->
 </layer-list>

@@ -1,0 +1,12 @@
+package ru.geekbrains.popular.libraries.englishtranslator
+
+class Constants {
+    companion object {
+        const val ANGLE_TO_ROTATE_BOTTOM_FAB: Float = -360f
+        const val SEARCH_FIELD_TEXT_SIZE: Float = 20F
+        const val SHARED_PREFERENCES_KEY: String = "Shared Preferences"
+        const val SHARED_PREFERENCES_THEME_KEY: String = "Shared Preferences Is Theme Day"
+        const val SHARED_PREFERENCES_MAIN_STATE_KEY: String = "Shared Preferences Is Main State"
+        const val BUTTON_CHANGE_THEME_INDEX: Int = 0
+    }
+}

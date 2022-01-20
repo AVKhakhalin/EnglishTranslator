@@ -9,7 +9,7 @@ import ru.geekbrains.popular.libraries.englishtranslator.presenter.Interactor
 class MainInteractor(
     private val remoteRepository: Repository<List<DataModel>>,
     private val localRepository: Repository<List<DataModel>>
-): Interactor<AppState> {
+) : Interactor<AppState> {
 
     override fun getData(word: String, fromRemoteSource: Boolean): Observable<AppState> {
         return if (fromRemoteSource) {

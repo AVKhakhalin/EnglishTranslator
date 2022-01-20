@@ -11,7 +11,7 @@ import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 class MainAdapter(
     private var onListItemClickListener: OnListItemClickListener,
     private var data: List<DataModel>
-):
+) :
     RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
 
     fun setData(data: List<DataModel>) {
@@ -34,7 +34,7 @@ class MainAdapter(
         return data.size
     }
 
-    inner class RecyclerItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(data: DataModel) {
             if (layoutPosition != RecyclerView.NO_POSITION) {

@@ -12,6 +12,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.activity_main.view.*
@@ -20,14 +22,12 @@ import ru.geekbrains.popular.libraries.englishtranslator.R
 import ru.geekbrains.popular.libraries.englishtranslator.databinding.ActivityMainBinding
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
-import ru.geekbrains.popular.libraries.englishtranslator.presenter.Presenter
 import ru.geekbrains.popular.libraries.englishtranslator.view.base.BaseActivity
-import ru.geekbrains.popular.libraries.englishtranslator.view.base.View
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter.MainAdapter
 import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColor
 
 
-class MainActivity : BaseActivity<AppState>() {
+class MainActivity: BaseActivity<AppState>() {
     /** Задание переменных */ //region
     // Binding
     private lateinit var binding: ActivityMainBinding
@@ -46,12 +46,12 @@ class MainActivity : BaseActivity<AppState>() {
                 Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
             }
         }
-    //endregion
-
-
-    override fun createPresenter(): Presenter<AppState, View> {
-        return MainPresenterImpl()
+    // ViewModel
+    override val model: MainViewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
     }
+    private val observer = Observer<AppState> { renderData(it) }
+    //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,7 +117,8 @@ class MainActivity : BaseActivity<AppState>() {
         showViewError()
         binding.errorTextview.text = error ?: getString(R.string.undefined_error)
         binding.reloadButton.setOnClickListener {
-            presenter.getData(this.getString(R.string.error_textview_stub))
+            model.getData(this.getString(R.string.error_textview_stub), true)
+                .observe(this, observer)
         }
     }
 
@@ -171,7 +172,7 @@ class MainActivity : BaseActivity<AppState>() {
             // Событие установки поискового запроса
             searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    presenter.getData(query)
+                    model.getData(query, true).observe(this@MainActivity, observer)
                     return false
                 }
 
@@ -293,7 +294,7 @@ class MainActivity : BaseActivity<AppState>() {
             getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, AppCompatActivity.MODE_PRIVATE)
         val sharedPreferencesEditor: SharedPreferences.Editor = sharedPreferences.edit()
         sharedPreferencesEditor.putBoolean(Constants.SHARED_PREFERENCES_THEME_KEY, isThemeDay)
-        sharedPreferencesEditor.putBoolean(Constants.SHARED_PREFERENCES_MAIN_STATE_KEY, isMain)
+        sharedPreferencesEditor.putBoolean(Constants.SHARED_PREFERENCES_MAIN_STATE_KEY, !isMain)
         sharedPreferencesEditor.apply()
     }
 }

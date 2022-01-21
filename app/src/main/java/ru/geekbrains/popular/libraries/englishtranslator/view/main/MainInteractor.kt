@@ -5,7 +5,7 @@ import ru.geekbrains.popular.libraries.englishtranslator.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 import ru.geekbrains.popular.libraries.englishtranslator.model.repository.Repository
-import ru.geekbrains.popular.libraries.englishtranslator.presenter.Interactor
+import ru.geekbrains.popular.libraries.englishtranslator.viewmodel.Interactor
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 

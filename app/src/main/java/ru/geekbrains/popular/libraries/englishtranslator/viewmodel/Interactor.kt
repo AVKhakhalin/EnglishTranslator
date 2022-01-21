@@ -1,4 +1,4 @@
-package ru.geekbrains.popular.libraries.englishtranslator.presenter
+package ru.geekbrains.popular.libraries.englishtranslator.viewmodel
 
 import io.reactivex.Observable
 

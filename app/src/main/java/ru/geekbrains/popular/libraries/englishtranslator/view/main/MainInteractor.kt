@@ -1,7 +1,7 @@
 package ru.geekbrains.popular.libraries.englishtranslator.view.main
 
 import io.reactivex.Observable
-import ru.geekbrains.popular.libraries.englishtranslator.Constants
+import ru.geekbrains.popular.libraries.englishtranslator.application.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 import ru.geekbrains.popular.libraries.englishtranslator.model.repository.Repository

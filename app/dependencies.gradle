@@ -58,7 +58,10 @@ ext {
     // Dagger
     dagger = [:]
     libs.dagger = dagger
-    dagger.runtime = "com.google.dagger:dagger:$daggerVersion"
+//    dagger.runtime = "com.google.dagger:dagger:$daggerVersion"
+    dagger.runtime = "com.google.dagger:dagger-android:$daggerVersion"
+    dagger.support = "com.google.dagger:dagger-android-support:$daggerVersion"
+    dagger.processor = "com.google.dagger:dagger-android-processor:$daggerVersion"
     dagger.compiler = "com.google.dagger:dagger-compiler:$daggerVersion"
     // Coroutunes
     coroutunes = [:]

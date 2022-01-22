@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.activity_main.view.*
-import ru.geekbrains.popular.libraries.englishtranslator.Constants
+import ru.geekbrains.popular.libraries.englishtranslator.application.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.R
 import ru.geekbrains.popular.libraries.englishtranslator.databinding.ActivityMainBinding
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState

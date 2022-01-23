@@ -4,7 +4,7 @@ import android.content.res.Resources
 import android.util.TypedValue
 import ru.geekbrains.popular.libraries.englishtranslator.R
 
-class ThemeColor(
+class ThemeColors(
     private val resourcesTheme: Resources.Theme
 ) {
     //region ЗАДАНИЕ ПЕРЕМЕННЫХ

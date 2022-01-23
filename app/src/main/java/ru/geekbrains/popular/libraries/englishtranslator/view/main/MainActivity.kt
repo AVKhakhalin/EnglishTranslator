@@ -24,7 +24,7 @@ import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 import ru.geekbrains.popular.libraries.englishtranslator.view.base.BaseActivity
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter.MainAdapter
-import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColor
+import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColors
 
 
 class MainActivity: BaseActivity<AppState>() {
@@ -38,7 +38,7 @@ class MainActivity: BaseActivity<AppState>() {
     // Установка темы приложения
     private var isThemeDay: Boolean = true
     // Цвета из аттрибутов темы
-    private var themeColor: ThemeColor? = null
+    private var themeColor: ThemeColors? = null
     // Событие: клик по элементу списка с найденными словами
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
         object: MainAdapter.OnListItemClickListener {
@@ -62,7 +62,7 @@ class MainActivity: BaseActivity<AppState>() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         // Получение цветов из аттрибутов темы
-        themeColor = ThemeColor(theme)
+        themeColor = ThemeColors(theme)
         themeColor?.let { it.initiateColors() }
 
         // Установка события нажатия на нижниюю FAB для открытия и закрытия поискового элемента

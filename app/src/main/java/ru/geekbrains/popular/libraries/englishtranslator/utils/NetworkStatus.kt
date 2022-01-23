@@ -1,4 +1,4 @@
-package ru.geekbrains.popular.libraries.englishtranslator.view.utils
+package ru.geekbrains.popular.libraries.englishtranslator.utils
 
 import android.content.Context
 import android.net.ConnectivityManager

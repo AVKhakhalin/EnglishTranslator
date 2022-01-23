@@ -6,13 +6,16 @@ import ru.geekbrains.popular.libraries.englishtranslator.di.DaggerAppComponent
 
 class TranslatorApp: Application() {
     companion object {
-        val component: AppComponent by lazy {
-            // DaggerAppComponent создаётся при первой компиляции приложения
-            DaggerAppComponent.builder().build()
-        }
+        lateinit var instance: TranslatorApp
     }
+
+    lateinit var component: AppComponent
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
+        component = DaggerAppComponent.builder()
+            .setContext(this)
+            .build()
     }
 }

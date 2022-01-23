@@ -1,5 +1,6 @@
 package ru.geekbrains.popular.libraries.englishtranslator.di
 
+import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.MainActivity
@@ -9,7 +10,8 @@ import javax.inject.Singleton
     modules = [
         InteractorModule::class,
         RepositoryModule::class,
-        ViewModelModule::class
+        ViewModelModule::class,
+//        AppModule::class
     ]
 )
 @Singleton
@@ -18,7 +20,7 @@ interface AppComponent {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun appName(appName: String): Builder
+        fun setContext(context: Context): Builder
 
         fun build(): AppComponent
     }

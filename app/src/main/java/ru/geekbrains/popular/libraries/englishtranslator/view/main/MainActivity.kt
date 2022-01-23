@@ -19,6 +19,7 @@ import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.activity_main.view.*
 import ru.geekbrains.popular.libraries.englishtranslator.application.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.R
+import ru.geekbrains.popular.libraries.englishtranslator.application.TranslatorApp
 import ru.geekbrains.popular.libraries.englishtranslator.databinding.ActivityMainBinding
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
@@ -56,23 +57,23 @@ class MainActivity: BaseActivity<AppState>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Запуск Dagger
+        TranslatorApp.instance.component.inject(this)
+
         // Считывание системных настроек, применение темы к приложению
         readSettingsAndSetupApplication(savedInstanceState)
-
+        // Установка binding
         binding = ActivityMainBinding.inflate(layoutInflater)
-
+        setContentView(binding.root)
         // Получение цветов из аттрибутов темы
         themeColor = ThemeColors(theme)
         themeColor?.let { it.initiateColors() }
-
         // Установка события нажатия на нижниюю FAB для открытия и закрытия поискового элемента
         binding.bottomNavigationMenu.bottomAppBarFab.setOnClickListener {
             switchBottomAppBar()
         }
         // Начальная установка доступности поискового поля
         switchBottomAppBar()
-
-        setContentView(binding.root)
     }
 
     override fun renderData(appState: AppState) {
@@ -294,7 +295,7 @@ class MainActivity: BaseActivity<AppState>() {
             getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, AppCompatActivity.MODE_PRIVATE)
         val sharedPreferencesEditor: SharedPreferences.Editor = sharedPreferences.edit()
         sharedPreferencesEditor.putBoolean(Constants.SHARED_PREFERENCES_THEME_KEY, isThemeDay)
-        sharedPreferencesEditor.putBoolean(Constants.SHARED_PREFERENCES_MAIN_STATE_KEY, !isMain)
+        sharedPreferencesEditor.putBoolean(Constants.SHARED_PREFERENCES_MAIN_STATE_KEY, isMain)
         sharedPreferencesEditor.apply()
     }
 }

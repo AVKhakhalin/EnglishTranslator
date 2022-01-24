@@ -17,8 +17,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.activity_main.view.*
-import ru.geekbrains.popular.libraries.englishtranslator.application.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.R
+import ru.geekbrains.popular.libraries.englishtranslator.application.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.application.TranslatorApp
 import ru.geekbrains.popular.libraries.englishtranslator.databinding.ActivityMainBinding
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
@@ -29,40 +29,43 @@ import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColors
 import javax.inject.Inject
 
 
-class MainActivity: BaseActivity<AppState, MainInteractor>() {
+class MainActivity : BaseActivity<AppState, MainInteractor>() {
     /** Задание переменных */ //region
     // Binding
     private lateinit var binding: ActivityMainBinding
+
     // MainAdapter
     private var adapter: MainAdapter? = null
+
     // Bottom navigation menu (признако основного состояния Main State - когда можно вводить слова)
     private var isMain: Boolean = true
+
     // Установка темы приложения
     private var isThemeDay: Boolean = true
+
     // Цвета из аттрибутов темы
     private var themeColor: ThemeColors? = null
+
     // Событие: клик по элементу списка с найденными словами
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
-        object: MainAdapter.OnListItemClickListener {
+        object : MainAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataModel) {
                 Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
             }
         }
+
     // ViewModel
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
-//    override val model: MainViewModel by lazy {
-//        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-//    }
+
     @Inject
     override lateinit var model: MainViewModel
-    // Observer
-//    private val observer = Observer<AppState> { renderData(it) }
     //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Запуск Dagger
+        // Рабочая версия
         TranslatorApp.instance.component.inject(this)
         // Считывание системных настроек, применение темы к приложению
         readSettingsAndSetupApplication(savedInstanceState)
@@ -91,11 +94,11 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
                 val dataModel = appState.data
                 val isEnglish: Boolean = appState.isEnglish
                 if (dataModel == null || dataModel.isEmpty()) {
-//                    showErrorScreen(getString(R.string.empty_server_response_on_success))
-                    Toast.makeText(this, getString(R.string.empty_server_response_on_success),
-                        Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this, getString(R.string.empty_server_response_on_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-//                    showViewSuccess()
                     if (adapter == null) {
                         binding.mainActivityRecyclerview.layoutManager =
                             LinearLayoutManager(applicationContext)
@@ -120,20 +123,10 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
                 }
             }
             is AppState.Error -> {
-//                showErrorScreen(appState.error.message)
                 Toast.makeText(this, appState.error.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-//    private fun showErrorScreen(error: String?) {
-//        showViewError()
-//        binding.errorTextview.text = error ?: getString(R.string.undefined_error)
-//        binding.reloadButton.setOnClickListener {
-//            model.getData(this.getString(R.string.error_textview_stub), true)
-//                .observe(this, observer)
-//        }
-//    }
 
     private fun showViewWorking() {
         binding.loadingFrameLayout.visibility = GONE
@@ -142,24 +135,6 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
     private fun showViewLoading() {
         binding.loadingFrameLayout.visibility = VISIBLE
     }
-
-//    private fun showViewSuccess() {
-//        binding.successLinearLayout.visibility = VISIBLE
-//        binding.loadingFrameLayout.visibility = GONE
-//        binding.errorLinearLayout.visibility = GONE
-//    }
-//
-//    private fun showViewLoading() {
-//        binding.successLinearLayout.visibility = GONE
-//        binding.loadingFrameLayout.visibility = VISIBLE
-//        binding.errorLinearLayout.visibility = GONE
-//    }
-//
-//    private fun showViewError() {
-//        binding.successLinearLayout.visibility = GONE
-//        binding.loadingFrameLayout.visibility = GONE
-//        binding.errorLinearLayout.visibility = VISIBLE
-//    }
 
     // Переключение режима нижней навигационной кнопки BottomAppBar
     // с центрального на крайнее правое положение и обратно
@@ -189,12 +164,10 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
             val searchView: SearchView = searchViewActionView as SearchView
             // Установка ранее заданного слова
             // TODO
-//            searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text).setText("")
             // Событие установки поискового запроса
-            searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-//                    model.getData(query, true).observe(this@MainActivity, observer)
-                    model.getData(query, true)
+                    model.getData(query)
                     return false
                 }
 
@@ -260,9 +233,10 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
                 .getItem(Constants.BUTTON_CHANGE_THEME_INDEX).setOnMenuItemClickListener {
                     isMain = false
                     changeTheme()
-                true
-            }
+                    true
+                }
             // Анимированное появление кнопки меню со сменой темы
+            // TODO
 //            ObjectAnimator.ofFloat(binding.bottomNavigationMenu.bottomAppBar.menu
 //                .findItem(R.id.action_change_theme).actionView, "alpha", 0F, 1F)
 //                .setDuration(1500).start()
@@ -274,10 +248,12 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
         val sharedPreferences: SharedPreferences =
             getSharedPreferences(Constants.SHARED_PREFERENCES_KEY, MODE_PRIVATE)
         isMain = sharedPreferences.getBoolean(
-            Constants.SHARED_PREFERENCES_MAIN_STATE_KEY, true)
+            Constants.SHARED_PREFERENCES_MAIN_STATE_KEY, true
+        )
         if (savedInstanceState != null) {
             isThemeDay = sharedPreferences.getBoolean(
-                Constants.SHARED_PREFERENCES_THEME_KEY, true)
+                Constants.SHARED_PREFERENCES_THEME_KEY, true
+            )
             if (isThemeDay) {
                 setTheme(R.style.DayTheme)
             } else {

@@ -36,7 +36,7 @@ class MainAdapter(
         return data.size
     }
 
-    inner class RecyclerItemViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class RecyclerItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(data: DataModel) {
             if (layoutPosition != RecyclerView.NO_POSITION) {

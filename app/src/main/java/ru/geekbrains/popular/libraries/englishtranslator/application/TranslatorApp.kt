@@ -4,13 +4,13 @@ import android.app.Application
 import ru.geekbrains.popular.libraries.englishtranslator.di.AppComponent
 import ru.geekbrains.popular.libraries.englishtranslator.di.DaggerAppComponent
 
-class TranslatorApp: Application() {
+class TranslatorApp : Application() {
+    // Рабочий вариант
     companion object {
         lateinit var instance: TranslatorApp
     }
 
     lateinit var component: AppComponent
-
     override fun onCreate() {
         super.onCreate()
         instance = this

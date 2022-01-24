@@ -5,6 +5,7 @@ import ru.geekbrains.popular.libraries.englishtranslator.application.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 import ru.geekbrains.popular.libraries.englishtranslator.model.repository.Repository
+import ru.geekbrains.popular.libraries.englishtranslator.utils.network.NetworkStatus
 import ru.geekbrains.popular.libraries.englishtranslator.viewmodel.Interactor
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -13,7 +14,8 @@ import javax.inject.Named
 
 class MainInteractor @Inject constructor(
     @Named(Constants.NAME_REMOTE) val remoteRepository: Repository<List<DataModel>>,
-    @Named(Constants.NAME_LOCAL) val localRepository: Repository<List<DataModel>>
+    @Named(Constants.NAME_LOCAL) val localRepository: Repository<List<DataModel>>,
+    val networkStatus: NetworkStatus
 ): Interactor<AppState> {
 
     /** Задание переменных */ //region
@@ -23,12 +25,13 @@ class MainInteractor @Inject constructor(
     private var isEnglishText: Boolean = true
     //endregion
 
-    override fun getData(word: String, fromRemoteSource: Boolean): Observable<AppState> {
+    //    override fun getData(word: String, fromRemoteSource: Boolean): Observable<AppState> {
+    override fun getData(word: String): Observable<AppState> {
         // Определение языка (английский - true, русский - false) вводимого слова
         engMatcher = engPattern.matcher(word)
         isEnglishText = engMatcher.find()
         // Отображение полученного поискового запроса
-        return if (fromRemoteSource) {
+        return if (networkStatus.isOnline()) {
             remoteRepository.getData(word).map { AppState.Success(it, isEnglishText) }
         } else {
             localRepository.getData(word).map { AppState.Success(it, isEnglishText) }

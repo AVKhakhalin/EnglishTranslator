@@ -9,14 +9,14 @@ import javax.inject.Singleton
 @Component(
     modules = [
         InteractorModule::class,
+        NetworkModule::class,
         RepositoryModule::class,
-        ViewModelModule::class,
-//        AppModule::class
+        ResourcesModule::class,
+        ViewModelModule::class
     ]
 )
 @Singleton
 interface AppComponent {
-
     @Component.Builder
     interface Builder {
         @BindsInstance
@@ -26,4 +26,5 @@ interface AppComponent {
     }
 
     fun inject(activity: MainActivity)
+    fun inject(context: Context)
 }

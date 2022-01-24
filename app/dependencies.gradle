@@ -9,6 +9,7 @@ def testEspressocoreVersion = "3.2.0"
 def roomVersion = "2.4.0"
 def roomJDBCVersion = "3.34.0"
 def daggerVersion = "2.39.1"
+def daggerAddSupportVersion = "2.12"
 def coroutunesVersion = "1.3.9"
 def retrofitVersion = "2.9.0"
 def retrofitGsonVersion = "2.7.1"
@@ -58,11 +59,12 @@ ext {
     // Dagger
     dagger = [:]
     libs.dagger = dagger
-//    dagger.runtime = "com.google.dagger:dagger:$daggerVersion"
+    dagger.daggger = "com.google.dagger:dagger:$daggerVersion"
     dagger.runtime = "com.google.dagger:dagger-android:$daggerVersion"
     dagger.support = "com.google.dagger:dagger-android-support:$daggerVersion"
     dagger.processor = "com.google.dagger:dagger-android-processor:$daggerVersion"
     dagger.compiler = "com.google.dagger:dagger-compiler:$daggerVersion"
+    dagger.addsupport = "com.google.dagger:dagger-android-support:$daggerAddSupportVersion"
     // Coroutunes
     coroutunes = [:]
     libs.coroutunes = coroutunes

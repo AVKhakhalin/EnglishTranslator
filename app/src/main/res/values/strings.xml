@@ -2,6 +2,7 @@
     <string name="app_name">EnglishTranslator</string>
 
     <string name="error_textview_stub">Ошибка</string>
+    <string name="error_unknown_model_class">Неизвестный класс</string>
     <string name="reload_button">Загрузить</string>
     <string name="undefined_error">Неизвестная ошибка</string>
     <string name="empty_server_response_on_success">Неизвестное слово</string>

@@ -91,8 +91,10 @@ dependencies {
 /*    // Coroutunes
     implementation libs.coroutunes.android */
     // Dagger
+    implementation libs.dagger.daggger
     implementation libs.dagger.runtime
     implementation libs.dagger.support
     kapt libs.dagger.processor
     kapt libs.dagger.compiler
+    kapt libs.dagger.addsupport
 }

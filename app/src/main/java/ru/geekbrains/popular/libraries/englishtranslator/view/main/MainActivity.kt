@@ -26,9 +26,10 @@ import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 import ru.geekbrains.popular.libraries.englishtranslator.view.base.BaseActivity
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter.MainAdapter
 import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColors
+import javax.inject.Inject
 
 
-class MainActivity: BaseActivity<AppState>() {
+class MainActivity: BaseActivity<AppState, MainInteractor>() {
     /** Задание переменных */ //region
     // Binding
     private lateinit var binding: ActivityMainBinding
@@ -48,18 +49,21 @@ class MainActivity: BaseActivity<AppState>() {
             }
         }
     // ViewModel
-    override val model: MainViewModel by lazy {
-        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
-    }
-    private val observer = Observer<AppState> { renderData(it) }
+    @Inject
+    internal lateinit var viewModelFactory: ViewModelProvider.Factory
+//    override val model: MainViewModel by lazy {
+//        ViewModelProvider.NewInstanceFactory().create(MainViewModel::class.java)
+//    }
+    @Inject
+    override lateinit var model: MainViewModel
+    // Observer
+//    private val observer = Observer<AppState> { renderData(it) }
     //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         // Запуск Dagger
         TranslatorApp.instance.component.inject(this)
-
         // Считывание системных настроек, применение темы к приложению
         readSettingsAndSetupApplication(savedInstanceState)
         // Установка binding
@@ -74,17 +78,24 @@ class MainActivity: BaseActivity<AppState>() {
         }
         // Начальная установка доступности поискового поля
         switchBottomAppBar()
+        // Начальная установка ViewModel
+        model = viewModelFactory.create(MainViewModel::class.java)
+        // Подписка на ViewModel
+        model.subscribe().observe(this@MainActivity, Observer<AppState> { renderData(it) })
     }
 
     override fun renderData(appState: AppState) {
         when (appState) {
             is AppState.Success -> {
+                showViewWorking()
                 val dataModel = appState.data
                 val isEnglish: Boolean = appState.isEnglish
                 if (dataModel == null || dataModel.isEmpty()) {
-                    showErrorScreen(getString(R.string.empty_server_response_on_success))
+//                    showErrorScreen(getString(R.string.empty_server_response_on_success))
+                    Toast.makeText(this, getString(R.string.empty_server_response_on_success),
+                        Toast.LENGTH_SHORT).show()
                 } else {
-                    showViewSuccess()
+//                    showViewSuccess()
                     if (adapter == null) {
                         binding.mainActivityRecyclerview.layoutManager =
                             LinearLayoutManager(applicationContext)
@@ -109,37 +120,46 @@ class MainActivity: BaseActivity<AppState>() {
                 }
             }
             is AppState.Error -> {
-                showErrorScreen(appState.error.message)
+//                showErrorScreen(appState.error.message)
+                Toast.makeText(this, appState.error.message, Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun showErrorScreen(error: String?) {
-        showViewError()
-        binding.errorTextview.text = error ?: getString(R.string.undefined_error)
-        binding.reloadButton.setOnClickListener {
-            model.getData(this.getString(R.string.error_textview_stub), true)
-                .observe(this, observer)
-        }
-    }
+//    private fun showErrorScreen(error: String?) {
+//        showViewError()
+//        binding.errorTextview.text = error ?: getString(R.string.undefined_error)
+//        binding.reloadButton.setOnClickListener {
+//            model.getData(this.getString(R.string.error_textview_stub), true)
+//                .observe(this, observer)
+//        }
+//    }
 
-    private fun showViewSuccess() {
-        binding.successLinearLayout.visibility = VISIBLE
+    private fun showViewWorking() {
         binding.loadingFrameLayout.visibility = GONE
-        binding.errorLinearLayout.visibility = GONE
     }
 
     private fun showViewLoading() {
-        binding.successLinearLayout.visibility = GONE
         binding.loadingFrameLayout.visibility = VISIBLE
-        binding.errorLinearLayout.visibility = GONE
     }
 
-    private fun showViewError() {
-        binding.successLinearLayout.visibility = GONE
-        binding.loadingFrameLayout.visibility = GONE
-        binding.errorLinearLayout.visibility = VISIBLE
-    }
+//    private fun showViewSuccess() {
+//        binding.successLinearLayout.visibility = VISIBLE
+//        binding.loadingFrameLayout.visibility = GONE
+//        binding.errorLinearLayout.visibility = GONE
+//    }
+//
+//    private fun showViewLoading() {
+//        binding.successLinearLayout.visibility = GONE
+//        binding.loadingFrameLayout.visibility = VISIBLE
+//        binding.errorLinearLayout.visibility = GONE
+//    }
+//
+//    private fun showViewError() {
+//        binding.successLinearLayout.visibility = GONE
+//        binding.loadingFrameLayout.visibility = GONE
+//        binding.errorLinearLayout.visibility = VISIBLE
+//    }
 
     // Переключение режима нижней навигационной кнопки BottomAppBar
     // с центрального на крайнее правое положение и обратно
@@ -173,7 +193,8 @@ class MainActivity: BaseActivity<AppState>() {
             // Событие установки поискового запроса
             searchView.setOnQueryTextListener(object: SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String): Boolean {
-                    model.getData(query, true).observe(this@MainActivity, observer)
+//                    model.getData(query, true).observe(this@MainActivity, observer)
+                    model.getData(query, true)
                     return false
                 }
 

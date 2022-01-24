@@ -1,6 +1,5 @@
 package ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 class MainAdapter(
     private var onListItemClickListener: OnListItemClickListener,
     private var data: List<DataModel>,
-    // Признак перевода англиского слова (true - английское слово; false - русское слово)
+    // Признак перевода английского слова (true - английское слово; false - русское слово)
     private var isEnglish: Boolean
 ): RecyclerView.Adapter<MainAdapter.RecyclerItemViewHolder>() {
 

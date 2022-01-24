@@ -12,8 +12,8 @@ import javax.inject.Named
 class InteractorModule {
 
     @Provides
-    internal fun provideInteracotr(
-        @Named(Constants.NAME_REMOTE) repositoryRemote: Repository<List<DataModel>>,
-        @Named(Constants.NAME_LOCAL) repositoryLocal: Repository<List<DataModel>>
+    internal fun provideInteractor(
+        @Named(NAME_REMOTE) repositoryRemote: Repository<List<DataModel>>,
+        @Named(NAME_LOCAL) repositoryLocal: Repository<List<DataModel>>
     ) = MainInteractor(repositoryRemote, repositoryLocal)
 }

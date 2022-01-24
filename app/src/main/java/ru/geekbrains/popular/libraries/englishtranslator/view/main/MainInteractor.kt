@@ -8,10 +8,12 @@ import ru.geekbrains.popular.libraries.englishtranslator.model.repository.Reposi
 import ru.geekbrains.popular.libraries.englishtranslator.viewmodel.Interactor
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import javax.inject.Inject
+import javax.inject.Named
 
-class MainInteractor(
-    private val remoteRepository: Repository<List<DataModel>>,
-    private val localRepository: Repository<List<DataModel>>
+class MainInteractor @Inject constructor(
+    @Named(Constants.NAME_REMOTE) val remoteRepository: Repository<List<DataModel>>,
+    @Named(Constants.NAME_LOCAL) val localRepository: Repository<List<DataModel>>
 ): Interactor<AppState> {
 
     /** Задание переменных */ //region

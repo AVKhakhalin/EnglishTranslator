@@ -25,39 +25,29 @@ import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 import ru.geekbrains.popular.libraries.englishtranslator.view.base.BaseActivity
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter.MainAdapter
-import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColors
 import javax.inject.Inject
 
 
-class MainActivity : BaseActivity<AppState, MainInteractor>() {
+class MainActivity: BaseActivity<AppState, MainInteractor>() {
     /** Задание переменных */ //region
     // Binding
     private lateinit var binding: ActivityMainBinding
-
     // MainAdapter
     private var adapter: MainAdapter? = null
-
     // Bottom navigation menu (признако основного состояния Main State - когда можно вводить слова)
     private var isMain: Boolean = true
-
     // Установка темы приложения
     private var isThemeDay: Boolean = true
-
-    // Цвета из аттрибутов темы
-    private var themeColor: ThemeColors? = null
-
     // Событие: клик по элементу списка с найденными словами
     private val onListItemClickListener: MainAdapter.OnListItemClickListener =
-        object : MainAdapter.OnListItemClickListener {
+        object: MainAdapter.OnListItemClickListener {
             override fun onItemClick(data: DataModel) {
                 Toast.makeText(this@MainActivity, data.text, Toast.LENGTH_SHORT).show()
             }
         }
-
     // ViewModel
     @Inject
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
-
     @Inject
     override lateinit var model: MainViewModel
     //endregion
@@ -65,16 +55,12 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // Запуск Dagger
-        // Рабочая версия
         TranslatorApp.instance.component.inject(this)
         // Считывание системных настроек, применение темы к приложению
         readSettingsAndSetupApplication(savedInstanceState)
         // Установка binding
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        // Получение цветов из аттрибутов темы
-        themeColor = ThemeColors(theme)
-        themeColor?.let { it.initiateColors() }
         // Установка события нажатия на нижниюю FAB для открытия и закрытия поискового элемента
         binding.bottomNavigationMenu.bottomAppBarFab.setOnClickListener {
             switchBottomAppBar()
@@ -190,9 +176,16 @@ class MainActivity : BaseActivity<AppState, MainInteractor>() {
                 searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
             // Установка цветов фона и текста для поискового поля
             searchedEditText.setBackgroundResource(R.drawable.search_view_shape)
-            themeColor?.let {
-                searchedEditText.setTextColor(it.getColorTypedValue())
-                searchedEditText.setHintTextColor(it.getColorTypedValue())
+            if (isThemeDay) {
+                searchedEditText.setTextColor(resources.getColor(
+                    R.color.bottom_sheet_background_color_night_description_text_day, theme))
+                searchedEditText.setHintTextColor(resources.getColor(
+                    R.color.bottom_sheet_background_color_night_description_text_day, theme))
+            } else {
+                searchedEditText.setTextColor(resources.getColor(
+                    R.color.bottom_sheet_background_color_night_description_text_night, theme))
+                searchedEditText.setHintTextColor(resources.getColor(
+                    R.color.bottom_sheet_background_color_night_description_text_night, theme))
             }
             // Установка размера поискового текста
             searchedEditText.textSize = Constants.SEARCH_FIELD_TEXT_SIZE

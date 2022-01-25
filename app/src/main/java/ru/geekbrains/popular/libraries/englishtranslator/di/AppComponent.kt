@@ -1,6 +1,8 @@
 package ru.geekbrains.popular.libraries.englishtranslator.di
 
 import android.content.Context
+import android.content.ContextWrapper
+import android.content.res.Resources
 import dagger.BindsInstance
 import dagger.Component
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.MainActivity

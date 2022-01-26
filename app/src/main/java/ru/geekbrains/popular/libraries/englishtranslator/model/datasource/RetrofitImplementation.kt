@@ -7,7 +7,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.geekbrains.popular.libraries.englishtranslator.Constants
+import ru.geekbrains.popular.libraries.englishtranslator.application.Constants
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 
 class RetrofitImplementation: DataSource<List<DataModel>> {

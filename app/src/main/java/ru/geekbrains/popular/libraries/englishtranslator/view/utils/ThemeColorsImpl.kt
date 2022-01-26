@@ -3,10 +3,9 @@ package ru.geekbrains.popular.libraries.englishtranslator.view.utils
 import android.content.res.Resources
 import android.util.TypedValue
 import ru.geekbrains.popular.libraries.englishtranslator.R
+import javax.inject.Inject
 
-class ThemeColor(
-    private val resourcesTheme: Resources.Theme
-) {
+class ThemeColorsImpl @Inject constructor(): ThemeColors {
     //region ЗАДАНИЕ ПЕРЕМЕННЫХ
     private val colorSecondaryTypedValue: TypedValue = TypedValue()
     private val colorTypedValue: TypedValue = TypedValue()
@@ -15,7 +14,7 @@ class ThemeColor(
     private val colorPrimaryTypedValue: TypedValue = TypedValue()
     //endregion
 
-    fun initiateColors() {
+    override fun initiateColors(resourcesTheme: Resources.Theme) {
         resourcesTheme.resolveAttribute(
             R.attr.colorSecondary, colorSecondaryTypedValue, true
         )

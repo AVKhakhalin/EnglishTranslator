@@ -1,4 +1,4 @@
-package ru.geekbrains.popular.libraries.englishtranslator.view.utils
+package ru.geekbrains.popular.libraries.englishtranslator.utils.network
 
 import android.content.Context
 import android.net.ConnectivityManager
@@ -7,8 +7,11 @@ import android.net.NetworkRequest
 import androidx.core.content.getSystemService
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import javax.inject.Inject
 
-class NetworkStatus(context: Context) {
+class NetworkStatus @Inject constructor(
+    context: Context
+) {
 
     private val networkSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 

@@ -25,6 +25,7 @@ import ru.geekbrains.popular.libraries.englishtranslator.model.data.AppState
 import ru.geekbrains.popular.libraries.englishtranslator.model.data.DataModel
 import ru.geekbrains.popular.libraries.englishtranslator.view.base.BaseActivity
 import ru.geekbrains.popular.libraries.englishtranslator.view.main.adapter.MainAdapter
+import ru.geekbrains.popular.libraries.englishtranslator.view.utils.ThemeColorsImpl
 import javax.inject.Inject
 
 
@@ -50,6 +51,9 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
     internal lateinit var viewModelFactory: ViewModelProvider.Factory
     @Inject
     override lateinit var model: MainViewModel
+    // ThemeColors
+    @Inject
+    lateinit var themeColorsImpl: ThemeColorsImpl
     //endregion
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,6 +69,8 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
         binding.bottomNavigationMenu.bottomAppBarFab.setOnClickListener {
             switchBottomAppBar()
         }
+        // Получение текущих цветов поля
+        themeColorsImpl.initiateColors(theme)
         // Начальная установка доступности поискового поля
         switchBottomAppBar()
         // Начальная установка ViewModel
@@ -176,17 +182,8 @@ class MainActivity: BaseActivity<AppState, MainInteractor>() {
                 searchView.findViewById<EditText>(androidx.appcompat.R.id.search_src_text)
             // Установка цветов фона и текста для поискового поля
             searchedEditText.setBackgroundResource(R.drawable.search_view_shape)
-            if (isThemeDay) {
-                searchedEditText.setTextColor(resources.getColor(
-                    R.color.bottom_sheet_background_color_night_description_text_day, theme))
-                searchedEditText.setHintTextColor(resources.getColor(
-                    R.color.bottom_sheet_background_color_night_description_text_day, theme))
-            } else {
-                searchedEditText.setTextColor(resources.getColor(
-                    R.color.bottom_sheet_background_color_night_description_text_night, theme))
-                searchedEditText.setHintTextColor(resources.getColor(
-                    R.color.bottom_sheet_background_color_night_description_text_night, theme))
-            }
+            searchedEditText.setTextColor(themeColorsImpl.getColorTypedValue())
+            searchedEditText.setHintTextColor(themeColorsImpl.getColorTypedValue())
             // Установка размера поискового текста
             searchedEditText.textSize = Constants.SEARCH_FIELD_TEXT_SIZE
             // Открытие поля для ввода текста

@@ -37,6 +37,7 @@ ext {
     kotlin.ktx = "androidx.core:core-ktx:$kotlinKTXVersion"
     kotlin.jdk7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinJDK7Version"
     //Design
+    //You should not use the com.android.support and com.google.android.material dependencies in your app at the same time
     design = [:]
     libs.design = design
     design.material = "com.google.android.material:material:$designMaterialVersion"
